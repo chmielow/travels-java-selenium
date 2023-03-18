@@ -28,10 +28,12 @@ public class SignUpTest {
         driver.findElements(By.xpath("//a[text()='  Sign Up']")).get(1).click();
 
         String lastName = "Tester";
+        int randomNumber = (int) (Math.random()*1000);
+        String email ="tester"+randomNumber+"@tester.pl";
         driver.findElement(By.name("firstname")).sendKeys("Marcin");
         driver.findElement(By.name("lastname")).sendKeys("Tester");
         driver.findElement(By.name("phone")).sendKeys("123456789");
-        driver.findElement(By.name("email")).sendKeys("3marcinchmielow@gmail.com");
+        driver.findElement(By.name("email")).sendKeys(email);
         driver.findElement(By.name("password")).sendKeys("Test123");
         driver.findElement(By.name("confirmpassword")).sendKeys("Test123");
         driver.findElement(By.xpath("//button[@type='submit' and text()=' Sign Up']")).click();
@@ -39,6 +41,8 @@ public class SignUpTest {
         WebElement heading = driver.findElement(By.xpath("//h3[@class='RTL']"));
         Assert.assertTrue(heading.getText().contains(lastName));
         Assert.assertEquals(heading.getText(),"Hi, Marcin Tester");
+
+
 
 
 
