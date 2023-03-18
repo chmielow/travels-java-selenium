@@ -28,6 +28,9 @@ public class HotelSearch {
                 .ifPresent(el -> el.click());
 
         driver.findElement(By.name("checkout")).sendKeys("23/08/23");
+        driver.findElement(By.id("travellersInput")).click();
+        driver.findElement(By.id("adultPlusBtn")).click();
+        driver.findElement(By.id("childPlusBtn")).click();
 
 
     }
