@@ -3,6 +3,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
@@ -25,6 +26,25 @@ public class SignUpTest {
                 .findFirst()
                 .ifPresent(WebElement::click);
         driver.findElements(By.xpath("//a[text()='  Sign Up']")).get(1).click();
+
+        String lastName = "Tester";
+        driver.findElement(By.name("firstname")).sendKeys("Marcin");
+        driver.findElement(By.name("lastname")).sendKeys("Tester");
+        driver.findElement(By.name("phone")).sendKeys("123456789");
+        driver.findElement(By.name("email")).sendKeys("3marcinchmielow@gmail.com");
+        driver.findElement(By.name("password")).sendKeys("Test123");
+        driver.findElement(By.name("confirmpassword")).sendKeys("Test123");
+        driver.findElement(By.xpath("//button[@type='submit' and text()=' Sign Up']")).click();
+
+        WebElement heading = driver.findElement(By.xpath("//h3[@class='RTL']"));
+        Assert.assertTrue(heading.getText().contains(lastName));
+        Assert.assertEquals(heading.getText(),"Hi, Marcin Tester");
+
+
+
+
+
+
 
 
     }
