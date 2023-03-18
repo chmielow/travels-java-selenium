@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class HotelSearch {
 
@@ -44,6 +43,38 @@ public class HotelSearch {
         Assert.assertEquals("Oasis Beach Tower",hotelNames.get(1));
         Assert.assertEquals("Rose Rayhaan Rotana",hotelNames.get(2));
         Assert.assertEquals("Hyatt Regency Perth",hotelNames.get(3));
+
+    }
+    @Test
+    public void searchHotelWithoutName() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+
+        WebDriver driver = new ChromeDriver(options);
+        driver.get("http://www.kurs-selenium.pl/demo/");
+        driver.manage().window().maximize();
+
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.findElement(By.name("checkin")).click();
+        driver.findElements(By.xpath("//td[@class = 'day ' and text()='19']"))
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst()
+                .ifPresent(WebElement::click);
+
+        driver.findElement(By.name("checkout")).sendKeys("23/08/23");
+        driver.findElement(By.id("travellersInput")).click();
+        driver.findElement(By.id("adultPlusBtn")).click();
+        driver.findElement(By.id("childPlusBtn")).click();
+        driver.findElement(By.xpath("//button[text()=' Search']")).click();
+
+        WebElement temp = driver.findElement(By.xpath("//h2[@class='text-center' and text()='No Results Found']"));
+
+        Assert.assertTrue(temp.isDisplayed());
+        Assert.assertEquals(temp.getText(),"No Results Found");
+
+
+
 
     }
 }
