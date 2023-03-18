@@ -4,23 +4,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class SignUpTest {
+public class SignUpTest extends BaseTest {
 
     @Test
-    public void signUp() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
-
-        WebDriver driver = new ChromeDriver(options);
-        driver.get("http://www.kurs-selenium.pl/demo/");
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
+    public void signUpTest() {
 
         driver.findElements(By.xpath("//li[@id='li_myaccount']"))
                 .stream()
@@ -39,21 +34,15 @@ public class SignUpTest {
         driver.findElement(By.name("password")).sendKeys("Test123");
         driver.findElement(By.name("confirmpassword")).sendKeys("Test123");
         driver.findElement(By.xpath("//button[@type='submit' and text()=' Sign Up']")).click();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         WebElement heading = driver.findElement(By.xpath("//h3[@class='RTL']"));
         Assert.assertTrue(heading.getText().contains(lastName));
         Assert.assertEquals(heading.getText(),"Hi, Marcin Tester");
-
+        driver.quit();
     }
     @Test
-    public void signUpWithoutFill() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
-
-        WebDriver driver = new ChromeDriver(options);
-        driver.get("http://www.kurs-selenium.pl/demo/");
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
+    public void signUpWithoutFillTest() {
 
         driver.findElements(By.xpath("//li[@id='li_myaccount']"))
                 .stream()
@@ -73,21 +62,10 @@ public class SignUpTest {
         softAssert.assertTrue(errors.contains("The Last Name field is required."));
         softAssert.assertAll();
 
-
-
-
-
     }
 
     @Test
-    public void signUpWithInvalidEmail() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
-
-        WebDriver driver = new ChromeDriver(options);
-        driver.get("http://www.kurs-selenium.pl/demo/");
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
+    public void signUpWithInvalidEmailTest() {
 
         driver.findElements(By.xpath("//li[@id='li_myaccount']"))
                 .stream()
@@ -107,6 +85,5 @@ public class SignUpTest {
         List<String> errors = driver.findElements(By.xpath("//div[@class='alert alert-danger']//p"))
                 .stream().map(WebElement::getText).toList();
         Assert.assertTrue(errors.contains("The Email field must contain a valid email address."));
-
     }
 }
