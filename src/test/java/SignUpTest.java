@@ -5,7 +5,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class SignUpTest {
@@ -42,14 +44,69 @@ public class SignUpTest {
         Assert.assertTrue(heading.getText().contains(lastName));
         Assert.assertEquals(heading.getText(),"Hi, Marcin Tester");
 
+    }
+    @Test
+    public void signUpWithoutFill() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+
+        WebDriver driver = new ChromeDriver(options);
+        driver.get("http://www.kurs-selenium.pl/demo/");
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
+
+        driver.findElements(By.xpath("//li[@id='li_myaccount']"))
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst()
+                .ifPresent(WebElement::click);
+        driver.findElements(By.xpath("//a[text()='  Sign Up']")).get(1).click();
+        driver.findElement(By.xpath("//button[@type='submit' and text()=' Sign Up']")).click();
+
+        List<String> errors = driver.findElements(By.xpath("//div[@class='alert alert-danger']//p"))
+                .stream().map(WebElement::getText).toList();
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(errors.contains("The Email field is required."));
+        softAssert.assertTrue(errors.contains("The Password field is required."));
+        softAssert.assertTrue(errors.contains("The Password field is required."));
+        softAssert.assertTrue(errors.contains("The First name field is required."));
+        softAssert.assertTrue(errors.contains("The Last Name field is required."));
+        softAssert.assertAll();
 
 
 
 
 
+    }
 
+    @Test
+    public void signUpWithInvalidEmail() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
 
+        WebDriver driver = new ChromeDriver(options);
+        driver.get("http://www.kurs-selenium.pl/demo/");
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
 
+        driver.findElements(By.xpath("//li[@id='li_myaccount']"))
+                .stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst()
+                .ifPresent(WebElement::click);
+        driver.findElements(By.xpath("//a[text()='  Sign Up']")).get(1).click();
+
+        driver.findElement(By.name("firstname")).sendKeys("Marcin");
+        driver.findElement(By.name("lastname")).sendKeys("Tester");
+        driver.findElement(By.name("phone")).sendKeys("123456789");
+        driver.findElement(By.name("email")).sendKeys("email");
+        driver.findElement(By.name("password")).sendKeys("Test123");
+        driver.findElement(By.name("confirmpassword")).sendKeys("Test123");
+        driver.findElement(By.xpath("//button[@type='submit' and text()=' Sign Up']")).click();
+
+        List<String> errors = driver.findElements(By.xpath("//div[@class='alert alert-danger']//p"))
+                .stream().map(WebElement::getText).toList();
+        Assert.assertTrue(errors.contains("The Email field must contain a valid email address."));
 
     }
 }
