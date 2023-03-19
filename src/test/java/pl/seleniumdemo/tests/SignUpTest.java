@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pl.seleniumdemo.pages.HotelSearchPage;
+import pl.seleniumdemo.pages.SingUpPage;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -17,22 +18,24 @@ public class SignUpTest extends BaseTest {
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
         hotelSearchPage.openSingUpForm();
 
+        SingUpPage singUpPage = new SingUpPage(driver);
+        singUpPage.setFirstName("Marcin");
+        singUpPage.setLastName("Tester");
+        singUpPage.setPhone("123456789");
+        singUpPage.setEmail("marcin");
+        singUpPage.setPassword("Test123");
+        singUpPage.setConfirmPassword("Test123");
+        singUpPage.clickSingUpButton();
+
         String lastName = "Tester";
-        int randomNumber = (int) (Math.random()*1000);
-        String email ="tester"+randomNumber+"@tester.pl";
-        driver.findElement(By.name("firstname")).sendKeys("Marcin");
-        driver.findElement(By.name("lastname")).sendKeys("Tester");
-        driver.findElement(By.name("phone")).sendKeys("123456789");
-        driver.findElement(By.name("email")).sendKeys(email);
-        driver.findElement(By.name("password")).sendKeys("Test123");
-        driver.findElement(By.name("confirmpassword")).sendKeys("Test123");
-        driver.findElement(By.xpath("//button[@type='submit' and text()=' Sign Up']")).click();
+
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
 
         WebElement heading = driver.findElement(By.xpath("//h3[@class='RTL']"));
         Assert.assertTrue(heading.getText().contains(lastName));
         Assert.assertEquals(heading.getText(),"Hi, Marcin Tester");
-        driver.quit();
+
     }
     @Test
     public void signUpWithoutFillTest() {
