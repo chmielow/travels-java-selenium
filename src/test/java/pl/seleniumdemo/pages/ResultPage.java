@@ -10,6 +10,8 @@ import java.util.List;
 public class ResultPage {
     @FindBy(xpath = "//h4[contains(@class,'list_title')]")
     private List<WebElement> hotelList;
+    @FindBy(xpath = "//h2[@class='text-center' and text()='No Results Found']")
+    public WebElement resultHeading;
 
     public ResultPage(WebDriver driver){
         PageFactory.initElements(driver,this);
@@ -20,5 +22,10 @@ public class ResultPage {
                 .map(el->el.getAttribute("textContent"))
                 .toList();
     }
+
+    public String getHeadingText(){
+        return resultHeading.getText();
+    }
+
 }
 
