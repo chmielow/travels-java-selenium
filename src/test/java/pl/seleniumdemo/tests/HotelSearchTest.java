@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pl.seleniumdemo.pages.HotelSearchPage;
+import pl.seleniumdemo.pages.ResultPage;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -19,9 +20,8 @@ public class HotelSearchTest extends BaseTest {
         hotelSearchPage.setDates("19/05/2023","22/06/2023");
         hotelSearchPage.setTravellers();
         hotelSearchPage.performSearch();
-        List<String> hotelNames = driver.findElements(By.xpath("//h4[contains(@class,'list_title')]")).stream()
-                .map(el->el.getAttribute("textContent"))
-                .toList();
+        ResultPage resultPage = new ResultPage(driver);
+        List<String> hotelNames = resultPage.getHotelName();
 
         Assert.assertEquals("Jumeirah Beach Hotel",hotelNames.get(0));
         Assert.assertEquals("Oasis Beach Tower",hotelNames.get(1));
