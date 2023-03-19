@@ -14,7 +14,7 @@ public class HotelSearchTest extends BaseTest {
     @Test
     public void searchHotelTest() {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        HotelSearchPage hotelSearchPage = new HotelSearchPage();
+        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
         hotelSearchPage.setCity("Dubai");
         hotelSearchPage.setDates("19/05/2023","22/06/2023");
         hotelSearchPage.setTravellers();
@@ -31,7 +31,7 @@ public class HotelSearchTest extends BaseTest {
     @Test
     public void searchHotelWithoutNameTest() {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        HotelSearchPage hotelSearchPage = new HotelSearchPage();
+        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
         //hotelSearchPage.setCity("Dubai");
         hotelSearchPage.setDates("19/05/2023","22/06/2023");
         hotelSearchPage.setTravellers();
