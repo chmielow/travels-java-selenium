@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import pl.seleniumdemo.pages.model.User;
 
 import java.util.List;
 
@@ -58,6 +59,15 @@ public class SingUpPage {
 
     public List<String> getAlertDanger(){
     return alertDanger.stream().map(WebElement::getText).toList();
+    }
+
+    public void fillSingUpForm(User user){
+        firstName.sendKeys(user.getFirstName());
+        lastName.sendKeys(user.getLastName());
+        phone.sendKeys(user.getPhone());
+        email.sendKeys(user.getEmail());
+        password.sendKeys(user.getPassword());
+        confirmPassword.sendKeys(user.getPassword());
     }
 
 }
