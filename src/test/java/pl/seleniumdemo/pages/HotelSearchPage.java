@@ -1,5 +1,7 @@
 package pl.seleniumdemo.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -35,6 +37,7 @@ public class HotelSearchPage {
     private List<WebElement> singUpLink;
 
     private WebDriver driver;
+    private static final Logger logger = LogManager.getLogger();
 
     public HotelSearchPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -42,29 +45,29 @@ public class HotelSearchPage {
     }
 
     public void setCity(String cityName) {
-        System.out.println("Setting city " + cityName);
+        logger.info("Setting city " + cityName);
         searchHotelSpan.click();
         searchHotelInput.sendKeys(cityName);
         String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
         driver.findElement(By.xpath(xpath)).click();
-        System.out.println("Setting city done");
+        logger.info("Setting city done");
 
     }
 
     public void setDates(String checkin, String checkout) {
-        System.out.println("Setting dates checkin " + checkin + "checkout " + checkout);
+        logger.info("Setting dates checkin " + checkin + " checkout " + checkout);
         checkInInput.sendKeys(checkin);
         checkOutInput.sendKeys(checkout);
-        System.out.println("Setting dates done");
+        logger.info("Setting dates done");
 
     }
 
     public void setTravellers(int adultsToAdd, int childToAdd) {
-        System.out.println("Setting travellers: adults + " + adultsToAdd + " child + " + childToAdd);
+        logger.info("Setting travellers: adults + " + adultsToAdd + " child + " + childToAdd);
         travellersInput.click();
         addTravellers(adultPlusBtn, adultsToAdd);
         addTravellers(childPlusBtn, childToAdd);
-        System.out.println("Setting travellers done");
+        logger.info("Setting travellers done");
     }
 
     private void addTravellers(WebElement travelerBtn, int numberOfTravelers) {
@@ -74,9 +77,9 @@ public class HotelSearchPage {
     }
 
     public void performSearch() {
-        System.out.println("Performing search");
+        logger.info("Performing search");
         searchButton.click();
-        System.out.println("Performing search done");
+        logger.info("Performing search done");
     }
 
     public void openSingUpForm() {
