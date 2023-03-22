@@ -13,17 +13,17 @@ public class ResultPage {
     @FindBy(xpath = "//h2[@class='text-center' and text()='No Results Found']")
     public WebElement resultHeading;
 
-    public ResultPage(WebDriver driver){
-        PageFactory.initElements(driver,this);
+    public ResultPage(WebDriver driver) {
+        PageFactory.initElements(driver, this);
     }
 
-    public List<String> getHotelName(){
-      return     hotelList.stream()
-                .map(el->el.getAttribute("textContent"))
+    public List<String> getHotelName() {
+        return hotelList.stream()
+                .map(el -> el.getAttribute("textContent"))
                 .toList();
     }
 
-    public String getHeadingText(){
+    public String getHeadingText() {
         return resultHeading.getText();
     }
 

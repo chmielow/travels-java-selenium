@@ -33,9 +33,10 @@ public class SignUpTest extends BaseTest {
         LoggedUserPage loggedUserPage = new LoggedUserPage(driver);
 
         Assert.assertTrue(loggedUserPage.getHeadingText().contains(lastName));
-        Assert.assertEquals(loggedUserPage.getHeadingText(),"Hi, Marcin Tester");
+        Assert.assertEquals(loggedUserPage.getHeadingText(), "Hi, Marcin Tester");
 
     }
+
     @Test
     public void signUpTest2() {
 
@@ -57,9 +58,10 @@ public class SignUpTest extends BaseTest {
         LoggedUserPage loggedUserPage = new LoggedUserPage(driver);
 
         Assert.assertTrue(loggedUserPage.getHeadingText().contains(user.getLastName()));
-        Assert.assertEquals(loggedUserPage.getHeadingText(),"Hi, Marcin Tester");
+        Assert.assertEquals(loggedUserPage.getHeadingText(), "Hi, Marcin Tester");
 
     }
+
     @Test
     public void signUpWithoutFillTest() {
 
@@ -68,7 +70,7 @@ public class SignUpTest extends BaseTest {
 
         SingUpPage singUpPage = new SingUpPage(driver);
         singUpPage.clickSingUpButton();
-        List<String> errors =singUpPage.getAlertDanger();
+        List<String> errors = singUpPage.getAlertDanger();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(errors.contains("The Email field is required."));
         softAssert.assertTrue(errors.contains("The Password field is required."));

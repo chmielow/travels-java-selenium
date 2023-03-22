@@ -32,7 +32,7 @@ public class User {
     }
 
     public String getEmail() {
-        int randomNumber = (int) (Math.random()*1000);
+        int randomNumber = (int) (Math.random() * 1000);
         email = randomNumber + email;
         return email;
     }
