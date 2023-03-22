@@ -1,17 +1,21 @@
 package pl.seleniumdemo.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import pl.seleniumdemo.pages.model.User;
+import pl.seleniumdemo.utils.SeleniumHelper;
 
 import java.util.List;
 
 public class SingUpPage {
+    private WebDriver driver;
 
     public SingUpPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver =driver;
     }
 
 
@@ -31,7 +35,6 @@ public class SingUpPage {
     private WebElement singUpButton;
     @FindBy(xpath = "//div[@class='alert alert-danger']//p")
     private List<WebElement> alertDanger;
-
 
     public void setFirstName(String firstName) {
         this.firstName.sendKeys(firstName);
@@ -64,6 +67,7 @@ public class SingUpPage {
     }
 
     public List<String> getAlertDanger() {
+        SeleniumHelper.waitForNotEmptyList(driver, By.xpath("//div[@class='alert alert-danger']//p"));
         return alertDanger.stream().map(WebElement::getText).toList();
     }
 

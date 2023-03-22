@@ -1,5 +1,6 @@
 package pl.seleniumdemo.tests;
 
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -7,9 +8,9 @@ import pl.seleniumdemo.pages.HotelSearchPage;
 import pl.seleniumdemo.pages.LoggedUserPage;
 import pl.seleniumdemo.pages.SingUpPage;
 import pl.seleniumdemo.pages.model.User;
+import pl.seleniumdemo.utils.SeleniumHelper;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class SignUpTest extends BaseTest {
 
@@ -28,7 +29,6 @@ public class SignUpTest extends BaseTest {
         singUpPage.setPassword("Test123");
         singUpPage.setConfirmPassword("Test123");
         singUpPage.clickSingUpButton();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         LoggedUserPage loggedUserPage = new LoggedUserPage(driver);
 
@@ -53,7 +53,6 @@ public class SignUpTest extends BaseTest {
         SingUpPage singUpPage = new SingUpPage(driver);
         singUpPage.fillSingUpForm(user);
         singUpPage.clickSingUpButton();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         LoggedUserPage loggedUserPage = new LoggedUserPage(driver);
 
@@ -95,7 +94,6 @@ public class SignUpTest extends BaseTest {
         singUpPage.setPassword("Test123");
         singUpPage.setConfirmPassword("Test123");
         singUpPage.clickSingUpButton();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         List<String> errors = singUpPage.getAlertDanger();
         Assert.assertTrue(errors.contains("The Email field must contain a valid email address."));
