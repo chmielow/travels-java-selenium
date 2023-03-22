@@ -16,18 +16,21 @@ public class SignUpTest extends BaseTest {
     public void signUpTest() {
         String lastName = "Tester";
 
-        LoggedUserPage loggedUserPage = new HotelSearchPage(driver)
+        SingUpPage singUpPage = new HotelSearchPage(driver)
                 .openSingUpForm()
                 .setFirstName("Marcin")
                 .setLastName(lastName)
                 .setPhone("123456789")
                 .setEmail("marcin@mail.pl")
                 .setPassword("Test123")
-                .setConfirmPassword("Test123")
-                .clickSingUpButton();
+                .setConfirmPassword("Test123");
+                singUpPage.clickSingUpButton();
 
-        //Assert.assertTrue(loggedUserPage.getHeadingText().contains(lastName));
-        //Assert.assertEquals(loggedUserPage.getHeadingText(),"Hi, Marcin Tester");
+                LoggedUserPage  loggedUserPage = new LoggedUserPage(driver);
+
+
+        Assert.assertTrue(loggedUserPage.getHeadingText().contains(lastName));
+        Assert.assertEquals(loggedUserPage.getHeadingText(),"Hi, Marcin Tester");
 
     }
 
