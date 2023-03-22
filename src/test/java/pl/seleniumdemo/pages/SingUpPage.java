@@ -1,10 +1,11 @@
 package pl.seleniumdemo.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.List;
 
 public class SingUpPage {
 
@@ -14,19 +15,22 @@ public class SingUpPage {
 
 
     @FindBy(name = "firstname")
-    public WebElement firstName;
+    private WebElement firstName;
     @FindBy(name = "lastname")
-    public WebElement lastName;
+    private WebElement lastName;
     @FindBy(name = "phone")
-    public WebElement phone;
+    private WebElement phone;
     @FindBy(name = "email")
-    public WebElement email;
+    private WebElement email;
     @FindBy(name = "password")
-    public WebElement password;
+    private WebElement password;
     @FindBy(name = "confirmpassword")
-    public WebElement confirmPassword;
+    private WebElement confirmPassword;
     @FindBy(xpath = "//button[@type='submit' and text()=' Sign Up']")
-    public WebElement singUpButton;
+    private WebElement singUpButton;
+    @FindBy(xpath = "//div[@class='alert alert-danger']//p")
+    private List<WebElement> alertDanger;
+
 
     public void setFirstName (String firstName){
        this.firstName.sendKeys(firstName);
@@ -39,7 +43,7 @@ public class SingUpPage {
     }
     public void setEmail (String email){
         int randomNumber = (int) (Math.random()*1000);
-        email =email+randomNumber+"@tester.pl";
+        email = randomNumber + email;
         this.email.sendKeys(email);
     }
     public void setPassword (String password){
@@ -50,6 +54,10 @@ public class SingUpPage {
     }
     public void clickSingUpButton (){
         this.singUpButton.click();
+    }
+
+    public List<String> getAlertDanger(){
+    return alertDanger.stream().map(WebElement::getText).toList();
     }
 
 }
