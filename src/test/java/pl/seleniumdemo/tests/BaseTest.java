@@ -12,7 +12,7 @@ public class BaseTest {
     protected WebDriver driver;
 
     @BeforeMethod
-    public void setUp(){
+    public void setUp() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
 
@@ -22,8 +22,9 @@ public class BaseTest {
         driver.get("http://www.kurs-selenium.pl/demo/");
 
     }
+
     @AfterMethod
-    public void tearDown(){
-        driver.quit();
+    public void tearDown() {
+        //driver.quit();
     }
 }

@@ -10,10 +10,10 @@ import java.util.List;
 
 public class HotelSearchPage {
 
-    @FindBy(xpath ="//span[text()='Search by Hotel or City Name']")
+    @FindBy(xpath = "//span[text()='Search by Hotel or City Name']")
     private WebElement searchHotelSpan;
 
-    @FindBy(xpath ="//div[@id='select2-drop']//input")
+    @FindBy(xpath = "//div[@id='select2-drop']//input")
     private WebElement searchHotelInput;
 
     @FindBy(name = "checkin")
@@ -36,44 +36,51 @@ public class HotelSearchPage {
 
     private WebDriver driver;
 
-    public HotelSearchPage(WebDriver driver){
-        PageFactory.initElements(driver,this);
+    public HotelSearchPage(WebDriver driver) {
+        PageFactory.initElements(driver, this);
         this.driver = driver;
     }
 
-    public void setCity(String cityName){
+    public HotelSearchPage setCity(String cityName) {
         searchHotelSpan.click();
         searchHotelInput.sendKeys(cityName);
-        String xpath = String.format("//span[@class='select2-match' and text()='%s']",cityName);
+        String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
         driver.findElement(By.xpath(xpath)).click();
-    }
-    public void setDates(String checkin, String checkout){
-        checkInInput.sendKeys(checkin);
-        checkOutInput.sendKeys(checkout);
-    }
-    public void setTravellers(int adultsToAdd, int childToAdd){
-        travellersInput.click();
-        addTravellers(adultPlusBtn,adultsToAdd);
-        addTravellers(childPlusBtn,childToAdd);
+        return this;
     }
 
-    private void addTravellers(WebElement travelerBtn, int numberOfTravelers){
-        for (int i = 0; i < numberOfTravelers; i++){
+    public HotelSearchPage setDates(String checkin, String checkout) {
+        checkInInput.sendKeys(checkin);
+        checkOutInput.sendKeys(checkout);
+        return this;
+    }
+
+    public HotelSearchPage setTravellers(int adultsToAdd, int childToAdd) {
+        travellersInput.click();
+        addTravellers(adultPlusBtn, adultsToAdd);
+        addTravellers(childPlusBtn, childToAdd);
+        return this;
+    }
+
+    private void addTravellers(WebElement travelerBtn, int numberOfTravelers) {
+        for (int i = 0; i < numberOfTravelers; i++) {
             travelerBtn.click();
         }
     }
 
-    public void performSearch(){
+    public ResultPage performSearch() {
         searchButton.click();
+        return new ResultPage(driver);
     }
 
-    public void openSingUpForm(){
+    public SingUpPage openSingUpForm() {
         myAccountLink
                 .stream()
                 .filter(WebElement::isDisplayed)
                 .findFirst()
                 .ifPresent(WebElement::click);
         singUpLink.get(1).click();
+        return new SingUpPage(driver);
     }
 
 }
