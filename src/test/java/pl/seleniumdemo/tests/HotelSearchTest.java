@@ -1,12 +1,15 @@
 package pl.seleniumdemo.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pl.seleniumdemo.pages.HotelSearchPage;
 import pl.seleniumdemo.pages.ResultPage;
+import pl.seleniumdemo.utils.FileExcelReader;
 
+
+import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class HotelSearchTest extends BaseTest {
 
@@ -40,5 +43,22 @@ public class HotelSearchTest extends BaseTest {
         Assert.assertTrue(resultPage.resultHeading.isDisplayed());
         Assert.assertEquals(temp, "No Results Found");
 
+    }
+    @Test(dataProvider = "data")
+    public void searchHotelTestWithDataProvider(String city, String hotel) {
+        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
+        hotelSearchPage.setCity(city);
+        hotelSearchPage.setDates("19/05/2023", "22/06/2023");
+        hotelSearchPage.setTravellers(1, 2);
+        hotelSearchPage.performSearch();
+        ResultPage resultPage = new ResultPage(driver);
+        List<String> hotelNames = resultPage.getHotelName();
+
+        Assert.assertEquals(hotel, hotelNames.get(0));
+
+    }
+    @DataProvider
+    public Object[][] data() throws IOException {
+        return FileExcelReader.readExcel("testData.xlsx");
     }
 }
